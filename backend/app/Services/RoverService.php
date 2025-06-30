@@ -40,4 +40,53 @@ class RoverService
         }
         return $cells;
     }
+
+    public function executeMission(int $x, int $y, string $direction, string $commands, array $obstacles): array
+    {
+        $mapSize = 200;
+        $steps = [];
+        $obstacleEncountered = false;
+        $obstaclePosition = null;
+
+        $dirMap = ['N' => [0, 1], 'E' => [1, 0], 'S' => [0, -1], 'W' => [-1, 0]];
+        $dirs = ['N', 'E', 'S', 'W'];
+
+        for ($i = 0; $i < strlen($commands); $i++) {
+            $cmd = strtoupper($commands[$i]);
+
+            if ($cmd === 'F') {
+                [$dx, $dy] = $dirMap[$direction];
+                $nx = ($x + $dx + $mapSize) % $mapSize;
+                $ny = ($y + $dy + $mapSize) % $mapSize;
+
+                if (in_array([$nx, $ny], $obstacles)) {
+                    $obstacleEncountered = true;
+                    $obstaclePosition = [$nx, $ny];
+                    break;
+                }
+
+                $x = $nx;
+                $y = $ny;
+            }
+
+            if ($cmd === 'L') {
+                $index = (array_search($direction, $dirs) - 1 + 4) % 4;
+                $direction = $dirs[$index];
+            }
+
+            if ($cmd === 'R') {
+                $index = (array_search($direction, $dirs) + 1) % 4;
+                $direction = $dirs[$index];
+            }
+
+            $steps[] = ['x' => $x, 'y' => $y, 'direction' => $direction];
+        }
+
+        return [
+            'finalPosition' => ['x' => $x, 'y' => $y, 'direction' => $direction],
+            'steps' => $steps,
+            'obstacleEncountered' => $obstacleEncountered,
+            'obstaclePosition' => $obstaclePosition
+        ];
+    }
 }
