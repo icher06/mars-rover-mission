@@ -12,7 +12,7 @@
       </span>
     </div>
 
-    <!-- Viewport Info -->
+    <!-- viewport details -->
     <div class="viewport-info">
       <div>Rover Position: ({{ roverX }}, {{ roverY }})</div>
       <div>Viewport: ({{ viewportBounds.startX }}, {{ viewportBounds.startY }}) to ({{ viewportBounds.endX - 1 }}, {{ viewportBounds.endY - 1 }})</div>
@@ -68,7 +68,7 @@ const CELL_SIZE = 30
 
 const currentStepIndex = ref(0)
 const isAnimating = ref(false)
-const seenObstacles = ref(new Set()) // Track unique obstacles seen during mission
+const seenObstacles = ref(new Set()) // record unique obstacles
 
 const currentStep = computed(() => {
   if (props.steps?.length) {
@@ -80,13 +80,13 @@ const currentStep = computed(() => {
 const roverX = computed(() => Math.floor(currentStep.value.x))
 const roverY = computed(() => Math.floor(currentStep.value.y))
 
-// Calculate viewport bounds - center the rover in the 11x11 view
+// center rover inside view
 const viewportBounds = computed(() => {
   const halfView = Math.floor(VIEWPORT_SIZE / 2)
   let startX = roverX.value - halfView
   let startY = roverY.value - halfView
 
-  // Keep viewport within map bounds
+  // stay within map
   startX = Math.max(0, Math.min(startX, MAP_SIZE - VIEWPORT_SIZE))
   startY = Math.max(0, Math.min(startY, MAP_SIZE - VIEWPORT_SIZE))
 
@@ -98,7 +98,7 @@ const viewportBounds = computed(() => {
   }
 })
 
-// Get obstacles visible in current viewport
+// obstacles visible now
 const visibleObstacles = computed(() => {
   const bounds = viewportBounds.value
   return props.obstacles?.filter(([x, y]) =>
@@ -107,12 +107,12 @@ const visibleObstacles = computed(() => {
   ) || []
 })
 
-// Check if mission was stopped (no steps or empty steps)
+// mission ended early
 const missionStopped = computed(() => {
   return !props.steps || props.steps.length === 0 || props.obstacleEncountered
 })
 
-// Track obstacles seen in current viewport
+// remember current obstacles
 const trackVisibleObstacles = () => {
   visibleObstacles.value.forEach(([x, y]) => {
     seenObstacles.value.add(`${x},${y}`)
@@ -132,7 +132,7 @@ function isRover(viewX, viewY) {
 }
 
 function animateStep() {
-  // Track obstacles at current position
+  // note obstacles at step
   trackVisibleObstacles()
 
   if (currentStepIndex.value < props.steps.length - 1) {
@@ -142,28 +142,28 @@ function animateStep() {
       animateStep()
     }, 500)
   } else {
-    // Final tracking
+    // final check
     trackVisibleObstacles()
     isAnimating.value = false
 
-    // Convert seen obstacles back to array format
+      // list seen obstacles
     const seenObstaclesList = Array.from(seenObstacles.value).map(coord => {
       const [x, y] = coord.split(',').map(Number)
       return [x, y]
     })
 
-    // Emit with seen obstacles
+      // send seen obstacles
     emit('animation-finished', { seenObstacles: seenObstaclesList })
   }
 }
 
 function startAnimation() {
   if (props.steps?.length > 0) {
-    seenObstacles.value.clear() // Reset seen obstacles
+    seenObstacles.value.clear() // reset list
     currentStepIndex.value = 0
     animateStep()
   } else {
-    // If no steps, just track current position
+    // track position when idle
     trackVisibleObstacles()
     const seenObstaclesList = Array.from(seenObstacles.value).map(coord => {
       const [x, y] = coord.split(',').map(Number)
@@ -184,7 +184,7 @@ watch(
   }
 )
 </script>
-<!-- Keep the same styles -->
+<!-- styles -->
 <style scoped>
 .mars-container {
   display: flex;

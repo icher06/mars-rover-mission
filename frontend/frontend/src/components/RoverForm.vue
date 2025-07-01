@@ -53,6 +53,7 @@
 </template>
 
 <style scoped>
+/* form styles */
 .button-container {
   display: flex;
   justify-content: center;
@@ -62,7 +63,7 @@
 
 .btn {
   padding: 0.5rem 1.25rem;
-  background-color: #374151; /* Gray-700 */
+  background-color: #374151;
   color: white;
   border: none;
   border-radius: 0.375rem;
@@ -72,12 +73,12 @@
 }
 
 .btn:hover:not(:disabled) {
-  background-color: #1f2937; /* Gray-800 */
-  box-shadow: 0 0 0 2px #6ee7b7; /* Emerald ring */
+  background-color: #1f2937;
+  box-shadow: 0 0 0 2px #6ee7b7;
 }
 
 .btn:disabled {
-  background-color: #9ca3af; /* Gray-400 */
+  background-color: #9ca3af;
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -124,14 +125,14 @@ const direction = ref('N')
 const commands = ref('')
 const positionLocked = ref(false)
 
-// Validation for commands
+// validate command input
 const hasInvalidCommands = computed(() => {
   if (!commands.value) return false
   const validPattern = /^[FRLfrl]*$/
   return !validPattern.test(commands.value)
 })
 
-// Validation for coordinates
+// validate coordinates
 const hasInvalidX = computed(() => {
   return x.value < 0 || x.value > 199 || isNaN(x.value)
 })
@@ -141,10 +142,10 @@ const hasInvalidY = computed(() => {
 })
 
 function validateCommands() {
-  // Convert to uppercase for consistency
+  // enforce uppercase
   commands.value = commands.value.toUpperCase()
 
-  // Remove any invalid characters
+  // drop invalid letters
   commands.value = commands.value.replace(/[^FRL]/g, '')
 }
 function validateX() {
@@ -175,7 +176,7 @@ onMounted(() => {
     }
   }
 
-  // ⚠️ Emitimos el mapa automáticamente si hay datos
+  // auto load map if saved
   if (saved && savedObstacles) {
     const position = JSON.parse(saved)
     const obstacles = JSON.parse(savedObstacles)
@@ -191,7 +192,7 @@ onMounted(() => {
 })
 
 async function startMission() {
-  // Prevent submission if there are invalid commands
+  // block submit when invalid
   if (hasInvalidCommands.value) {
     return
   }
@@ -223,7 +224,7 @@ async function startMission() {
 
   emit('mission-executed', res)
 
-  // Bloquea posición después de ejecutar
+  // lock position after run
   x.value = final.x
   y.value = final.y
   direction.value = final.direction

@@ -18,7 +18,7 @@
         <strong>{{ props.result.obstacleEncountered ? 'Mission Stopped' : 'Mission Completed' }}</strong>
       </p>
 
-      <!-- Show obstacle encounter details if mission was stopped -->
+      <!-- details when stopped -->
       <div v-if="props.result.obstacleEncountered" class="mt-4 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
         <p class="mb-2 text-red-300">
           <span>Obstacle encountered at: </span>
@@ -26,7 +26,7 @@
         </p>
       </div>
 
-      <!-- Always show obstacles seen during mission -->
+      <!-- obstacles spotted -->
       <div v-if="props.result.seenObstacles?.length > 0" class="mt-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
         <p class="text-blue-200 mb-2">Obstacles detected during mission:</p>
         <div class="flex flex-wrap justify-center gap-1">
@@ -58,7 +58,7 @@ const props = defineProps({
 
 const resultContainer = ref(null)
 const showObstacleModal = ref(false)
-// Handle both cases: steps exist or finalPosition directly
+// compute last step
 const finalPosition = computed(() => {
   if (props.result.steps?.length > 0) {
     return props.result.steps.at(-1)
@@ -67,7 +67,7 @@ const finalPosition = computed(() => {
 })
 
 onMounted(() => {
-  // Auto-scroll to results
+  // scroll to output
   setTimeout(() => {
     if (resultContainer.value) {
       resultContainer.value.scrollIntoView({
@@ -77,14 +77,14 @@ onMounted(() => {
     }
   }, 300)
 
-  // Effects based on mission outcome
+  // show effects
   if (props.result.obstacleEncountered) {
-    // Mission failed - show warning modal
+    // open warning modal
     setTimeout(() => {
       showObstacleModal.value = true
     }, 300)
   } else {
-    // Mission succeeded - show celebration confetti
+    // show confetti
     confetti({
       particleCount: 100,
       spread: 60,

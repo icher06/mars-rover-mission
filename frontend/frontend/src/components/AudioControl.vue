@@ -4,7 +4,7 @@
     @mouseenter="showSlider = true"
     @mouseleave="showSlider = false"
   >
-    <!-- Speaker Icon -->
+    <!-- speaker icon -->
     <button
       @click="toggleMute"
       class="btn speaker-btn"
@@ -18,7 +18,7 @@
       </svg>
     </button>
 
-    <!-- Volume Slider - appears RIGHT next to button -->
+    <!-- volume slider -->
     <div v-if="showSlider" class="volume-slider">
       <input
         type="range"
@@ -31,7 +31,7 @@
       <span class="volume-text">{{ volume }}%</span>
     </div>
 
-    <!-- Audio Element -->
+    <!-- audio element -->
     <audio
       ref="audioElement"
       loop
@@ -114,6 +114,7 @@ const updateVolume = () => {
 </script>
 
 <style scoped>
+/* layout for audio control */
 .audio-control {
   display: flex;
   align-items: center;
@@ -121,9 +122,10 @@ const updateVolume = () => {
   margin: 0 !important;
   padding: 0 !important;
 }
+/* button style */
 .btn {
   padding: 0.5rem 1.25rem;
-  background-color: #374151; /* Gray-700 */
+  background-color: #374151;
   color: white;
   border: none;
   border-radius: 0.375rem;
@@ -136,8 +138,8 @@ const updateVolume = () => {
 }
 
 .btn:hover {
-  background-color: #1f2937; /* Gray-800 */
-  box-shadow: 0 0 0 2px #6ee7b7; /* Emerald ring */
+  background-color: #1f2937;
+  box-shadow: 0 0 0 2px #6ee7b7;
 }
 .speaker-btn {
   padding: 6px;
@@ -163,13 +165,13 @@ const updateVolume = () => {
 }
 @media (prefers-color-scheme: light) {
   .speaker-btn {
-    background-color: #f3f4f6; /* Gray-100 */
-    border-color: #10b981; /* Emerald-500 */
-    color: #111827; /* Gray-900 */
+    background-color: #f3f4f6;
+    border-color: #10b981;
+    color: #111827;
   }
 
   .speaker-btn:hover {
-    background-color: #d1fae5; /* Emerald-100 */
+    background-color: #d1fae5;
   }
 }
 .speaker-btn:hover {
@@ -177,7 +179,7 @@ const updateVolume = () => {
 }
 
 .speaker-btn.muted {
-  background-color: #dc2626; /* Red-600 */
+  background-color: #dc2626;
   color: white;
   box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.5);
 }

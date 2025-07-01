@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-black text-white font-sans">
-    <!-- Audio Control in top LEFT corner -->
+    <!-- audio control -->
     <div class="fixed top-4 left-4 z-50">
       <AudioControl />
     </div>

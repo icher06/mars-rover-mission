@@ -1,16 +1,16 @@
 <template>
-  <!-- Modal Overlay -->
+  <!-- overlay -->
   <div
     v-if="isVisible"
     class="modal-overlay"
     @click="closeModal"
   >
-    <!-- Modal Content -->
+    <!-- content -->
     <div
       class="modal-content"
       @click.stop
     >
-      <!-- Warning Icon -->
+      <!-- icon -->
       <div class="warning-icon">
         <svg
           width="64"
@@ -27,10 +27,10 @@
         </svg>
       </div>
 
-      <!-- Modal Header -->
+      <!-- header -->
       <h3 class="modal-title">Mission Interrupted!</h3>
 
-      <!-- Modal Body -->
+      <!-- body -->
       <div class="modal-body">
         <p class="obstacle-message">
           🤖 The rover encountered an obstacle and had to stop its mission.
@@ -53,7 +53,7 @@
         </p>
       </div>
 
-      <!-- Modal Footer -->
+      <!-- footer -->
       <div class="modal-footer">
         <button
           @click="closeModal"
@@ -78,7 +78,7 @@ const emit = defineEmits(['close'])
 const isVisible = ref(false)
 
 onMounted(() => {
-  // Animate modal entrance
+  // show modal
   setTimeout(() => {
     isVisible.value = true
   }, 100)
@@ -222,7 +222,7 @@ function closeModal() {
   transform: translateY(0);
 }
 
-/* Dark mode styles */
+/* dark mode */
 @media (prefers-color-scheme: dark) {
   .modal-content {
     background-color: #1f2937;
@@ -264,7 +264,7 @@ function closeModal() {
   }
 }
 
-/* Animations */
+/* animations */
 @keyframes fadeIn {
   from {
     opacity: 0;

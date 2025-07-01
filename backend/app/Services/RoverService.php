@@ -15,9 +15,9 @@ class RoverService
             $oy = rand(0, $mapsize - 1);
 
             if (
-                ($ox === $x && $oy === $y) ||       // Avoid obstacle spawn over the Rover
-                in_array([$ox, $oy], $protected) || // Avoid blocking first directions ?makes sense?
-                in_array([$ox, $oy], $obstacles)    // Avoid obstacles on top of an obstacle
+                ($ox === $x && $oy === $y) || // skip rover position
+                in_array([$ox, $oy], $protected) || // keep first moves clear
+                in_array([$ox, $oy], $obstacles) // avoid duplicates
             ) {
                 continue;
             }
@@ -31,7 +31,7 @@ class RoverService
     private function getProtectedCells(int $x, int $y, string $direction): array
     {
         $cells = [[$x, $y]];
-        // Protect Rover from initial block
+        // keep starting cell free
         switch ($direction) {
             case 'N': $cells[] = [$x, $y - 1]; break;
             case 'S': $cells[] = [$x, $y + 1]; break;
