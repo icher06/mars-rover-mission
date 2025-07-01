@@ -162,6 +162,7 @@ Used to show the rover in idle state before mission begins.
    ```bash
    php artisan test
    ```
+For additional testing details see `docs/TESTING.md`.
 
 ### Frontend Setup
 1. Install dependencies:
@@ -171,9 +172,13 @@ Used to show the rover in idle state before mission begins.
    ```
 2. Start the frontend development server:
    ```bash
-   npm run dev
+  npm run dev
+  ```
+3. Run frontend tests (optional):
+   ```bash
+   npx vitest
    ```
-3. Once running, open the app in your browser at:  
+4. Once running, open the app in your browser at:
    **[http://localhost:5173](http://localhost:5173)**  
    (or the port shown in your terminal if different).
 The frontend expects the backend to be running at `http://localhost:8000`. Adjust the API base URL in `frontend/frontend/api/rover.js` if needed.
