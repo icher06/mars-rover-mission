@@ -172,12 +172,9 @@ For additional testing details see `docs/TESTING.md`.
    ```
 2. Start the frontend development server:
    ```bash
-  npm run dev
-  ```
-3. Run frontend tests (optional):
-   ```bash
-   npx vitest
+     npm run dev
    ```
+
 4. Once running, open the app in your browser at:
    **[http://localhost:5173](http://localhost:5173)**  
    (or the port shown in your terminal if different).
