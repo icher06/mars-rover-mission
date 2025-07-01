@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-black text-white font-sans">
-    <!-- Audio Control at ABSOLUTE top left corner -->
-    <div class="fixed top-2 left-2 z-50">
+    <!-- Audio Control in top LEFT corner -->
+    <div class="fixed top-4 left-4 z-50">
       <AudioControl />
     </div>
 

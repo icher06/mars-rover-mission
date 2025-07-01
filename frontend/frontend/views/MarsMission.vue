@@ -11,6 +11,7 @@
         :obstacle="result.obstaclePosition"
         :obstacles="result.obstacles"
         :finalPosition="result.finalPosition"
+        :obstacleEncountered="result.obstacleEncountered"
         @animation-finished="onAnimationFinished"
       />
       <RobotIdle v-else />

@@ -40,19 +40,24 @@
         </div>
       </div>
     </div>
+    <ObstacleModal
+      v-if="showObstacleModal"
+      :obstacle-position="props.result.obstaclePosition"
+      @close="showObstacleModal = false"
+    />
   </div>
 </template>
 
 <script setup>
 import { onMounted, computed, ref } from 'vue'
 import confetti from 'canvas-confetti'
-
+import ObstacleModal from './ObstacleModal.vue'
 const props = defineProps({
   result: Object
 })
 
 const resultContainer = ref(null)
-
+const showObstacleModal = ref(false)
 // Handle both cases: steps exist or finalPosition directly
 const finalPosition = computed(() => {
   if (props.result.steps?.length > 0) {
@@ -74,15 +79,10 @@ onMounted(() => {
 
   // Effects based on mission outcome
   if (props.result.obstacleEncountered) {
-    // Mission failed - show explosion effect
-    confetti({
-      particleCount: 50,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#ff0000', '#ff4444', '#cc0000', '#990000'],
-      shapes: ['square'],
-      scalar: 0.8
-    })
+    // Mission failed - show warning modal
+    setTimeout(() => {
+      showObstacleModal.value = true
+    }, 800)
   } else {
     // Mission succeeded - show celebration confetti
     confetti({

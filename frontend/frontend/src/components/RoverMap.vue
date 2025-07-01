@@ -1,3 +1,54 @@
+<template>
+  <div class="mars-container">
+    <div class="mars-status">
+      <span v-if="isAnimating" class="text-orange-400">
+        🤖 Moving... Step {{ currentStepIndex + 1 }}/{{ props.steps?.length || 0 }}
+      </span>
+      <span v-else-if="missionStopped" class="text-red-400">
+        Mission Stopped!
+      </span>
+      <span v-else class="text-green-400">
+        Mission Complete!
+      </span>
+    </div>
+
+    <!-- Viewport Info -->
+    <div class="viewport-info">
+      <div>Rover Position: ({{ roverX }}, {{ roverY }})</div>
+      <div>Viewport: ({{ viewportBounds.startX }}, {{ viewportBounds.startY }}) to ({{ viewportBounds.endX - 1 }}, {{ viewportBounds.endY - 1 }})</div>
+      <div>Visible Obstacles: {{ visibleObstacles.length }}</div>
+      <div>Total Seen: {{ seenObstacles.size }}</div>
+    </div>
+
+    <div class="mars-grid">
+      <div
+        v-for="row in VIEWPORT_SIZE"
+        :key="`row-${row}`"
+        class="mars-row"
+      >
+        <div
+          v-for="col in VIEWPORT_SIZE"
+          :key="`cell-${row}-${col}`"
+          class="mars-cell"
+          :class="{
+            'obstacle': isObstacle(col - 1, row - 1),
+            'rover-cell': isRover(col - 1, row - 1)
+          }"
+        >
+          <span v-if="isRover(col - 1, row - 1)" class="rover">🤖</span>
+          <span v-else-if="isObstacle(col - 1, row - 1)" class="rock">🪨</span>
+          <span v-else class="coords">{{ viewportBounds.startX + col - 1 }},{{ viewportBounds.startY + row - 1 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mars-legend">
+      <div><span class="legend-mars"></span> Mars Surface</div>
+      <div><span class="legend-obstacle"></span> Obstacles</div>
+      <div><span class="rover">🤖</span> Rover</div>
+    </div>
+  </div>
+</template>
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 
@@ -5,7 +56,8 @@ const props = defineProps({
   steps: Array,
   obstacle: Array,
   obstacles: Array,
-  finalPosition: Object
+  finalPosition: Object,
+  obstacleEncountered: Boolean
 })
 
 const emit = defineEmits(['animation-finished'])
@@ -57,7 +109,7 @@ const visibleObstacles = computed(() => {
 
 // Check if mission was stopped (no steps or empty steps)
 const missionStopped = computed(() => {
-  return !props.steps || props.steps.length === 0
+  return !props.steps || props.steps.length === 0 || props.obstacleEncountered
 })
 
 // Track obstacles seen in current viewport
@@ -132,59 +184,6 @@ watch(
   }
 )
 </script>
-
-<template>
-  <div class="mars-container">
-    <div class="mars-status">
-      <span v-if="isAnimating" class="text-orange-400">
-        🤖 Moving... Step {{ currentStepIndex + 1 }}/{{ props.steps?.length || 0 }}
-      </span>
-      <span v-else-if="missionStopped" class="text-red-400">
-        Mission Stopped!
-      </span>
-      <span v-else class="text-green-400">
-        Mission Complete!
-      </span>
-    </div>
-
-    <!-- Viewport Info -->
-    <div class="viewport-info">
-      <div>Rover Position: ({{ roverX }}, {{ roverY }})</div>
-      <div>Viewport: ({{ viewportBounds.startX }}, {{ viewportBounds.startY }}) to ({{ viewportBounds.endX - 1 }}, {{ viewportBounds.endY - 1 }})</div>
-      <div>Visible Obstacles: {{ visibleObstacles.length }}</div>
-      <div>Total Seen: {{ seenObstacles.size }}</div>
-    </div>
-
-    <div class="mars-grid">
-      <div
-        v-for="row in VIEWPORT_SIZE"
-        :key="`row-${row}`"
-        class="mars-row"
-      >
-        <div
-          v-for="col in VIEWPORT_SIZE"
-          :key="`cell-${row}-${col}`"
-          class="mars-cell"
-          :class="{
-            'obstacle': isObstacle(col - 1, row - 1),
-            'rover-cell': isRover(col - 1, row - 1)
-          }"
-        >
-          <span v-if="isRover(col - 1, row - 1)" class="rover">🤖</span>
-          <span v-else-if="isObstacle(col - 1, row - 1)" class="rock">🪨</span>
-          <span v-else class="coords">{{ viewportBounds.startX + col - 1 }},{{ viewportBounds.startY + row - 1 }}</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="mars-legend">
-      <div><span class="legend-mars"></span> Mars Surface</div>
-      <div><span class="legend-obstacle"></span> Obstacles</div>
-      <div><span class="rover">🤖</span> Rover</div>
-    </div>
-  </div>
-</template>
-
 <!-- Keep the same styles -->
 <style scoped>
 .mars-container {
