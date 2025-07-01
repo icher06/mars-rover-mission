@@ -1,9 +1,0 @@
-Commands used:
-    - php artisan install:api
-    - php artisan make:controller RoverController
-    - php artisan make:class Services/RoverService
-    - php artisan make:test RoverStartTest
-    - composer install
-    - php artisan test --filter RoverStartTest
-    - php artisan make:test RoverExecuteTest
-    - php artisan test --filter RoverExecuteTest
