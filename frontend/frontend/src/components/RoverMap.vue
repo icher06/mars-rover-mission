@@ -55,6 +55,11 @@ const visibleObstacles = computed(() => {
   ) || []
 })
 
+// Check if mission was stopped (no steps or empty steps)
+const missionStopped = computed(() => {
+  return !props.steps || props.steps.length === 0
+})
+
 // Track obstacles seen in current viewport
 const trackVisibleObstacles = () => {
   visibleObstacles.value.forEach(([x, y]) => {
@@ -101,7 +106,7 @@ function animateStep() {
 }
 
 function startAnimation() {
-  if (props.steps?.length) {
+  if (props.steps?.length > 0) {
     seenObstacles.value.clear() // Reset seen obstacles
     currentStepIndex.value = 0
     animateStep()
@@ -123,9 +128,7 @@ onMounted(() => {
 watch(
   () => props.steps,
   (newVal) => {
-    if (newVal?.length) {
-      startAnimation()
-    }
+    startAnimation()
   }
 )
 </script>
@@ -136,7 +139,10 @@ watch(
       <span v-if="isAnimating" class="text-orange-400">
         🤖 Moving... Step {{ currentStepIndex + 1 }}/{{ props.steps?.length || 0 }}
       </span>
-      <span v-else-if="props.steps?.length" class="text-green-400">
+      <span v-else-if="missionStopped" class="text-red-400">
+        Mission Stopped!
+      </span>
+      <span v-else class="text-green-400">
         Mission Complete!
       </span>
     </div>

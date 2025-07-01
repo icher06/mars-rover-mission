@@ -16,7 +16,8 @@
       <RobotIdle v-else />
     </div>
 
-    <RoverResult v-if="animationDone" :result="resultWithSeenObstacles" />
+    <!-- Show results for both completed and stopped missions -->
+    <RoverResult v-if="animationDone && result" :result="resultWithSeenObstacles" />
   </main>
 </template>
 

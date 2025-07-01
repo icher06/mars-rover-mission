@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6">
+  <div ref="resultContainer" class="mt-6">
     <h2 class="text-xl font-semibold mb-2 text-center">Mission Outcome</h2>
 
     <div class="text-center">
@@ -44,24 +44,47 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import confetti from 'canvas-confetti'
 
 const props = defineProps({
   result: Object
 })
 
+const resultContainer = ref(null)
+
 // Handle both cases: steps exist or finalPosition directly
 const finalPosition = computed(() => {
   if (props.result.steps?.length > 0) {
     return props.result.steps.at(-1)
   }
-  // Fallback to finalPosition if no steps (obstacle encountered immediately)
   return props.result.finalPosition || { x: 0, y: 0, direction: 'N' }
 })
 
 onMounted(() => {
-  if (!props.result.obstacleEncountered) {
+  // Auto-scroll to results
+  setTimeout(() => {
+    if (resultContainer.value) {
+      resultContainer.value.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      })
+    }
+  }, 300)
+
+  // Effects based on mission outcome
+  if (props.result.obstacleEncountered) {
+    // Mission failed - show explosion effect
+    confetti({
+      particleCount: 50,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#ff0000', '#ff4444', '#cc0000', '#990000'],
+      shapes: ['square'],
+      scalar: 0.8
+    })
+  } else {
+    // Mission succeeded - show celebration confetti
     confetti({
       particleCount: 100,
       spread: 60,
