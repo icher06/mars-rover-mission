@@ -20,7 +20,7 @@ class RoverExecuteTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'finalPosition' => ['x' => 2, 'y' => 2, 'direction' => 'E'],
+            'finalPosition' => ['x' => 2, 'y' => 198, 'direction' => 'E'],
             'obstacleEncountered' => false
         ]);
         $this->assertCount(5, $response['steps']);
@@ -33,14 +33,15 @@ class RoverExecuteTest extends TestCase
             'y' => 0,
             'direction' => 'N',
             'commands' => 'FFF',
-            'obstacles' => [[0, 2]]
+            'obstacles' => [[0, 198]]
         ]);
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'finalPosition' => ['x' => 0, 'y' => 1, 'direction' => 'N'],
+            'finalPosition' => ['x' => 0, 'y' => 199, 'direction' => 'N'],
             'obstacleEncountered' => true,
-            'obstaclePosition' => [0, 2]
+            'obstaclePosition' => [0, 198],
+            'obstacles' => [[0, 198]]
         ]);
     }
 }

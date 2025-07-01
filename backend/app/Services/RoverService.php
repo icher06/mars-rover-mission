@@ -4,7 +4,7 @@ namespace App\Services;
 
 class RoverService
 {
-    public function generateObstacles(int $x, int $y, string $direction, int $count = 20): array
+    public function generateObstacles(int $x, int $y, string $direction, int $count = 800): array
     {
         $mapsize = 200;
         $obstacles = [];
@@ -33,8 +33,8 @@ class RoverService
         $cells = [[$x, $y]];
         // Protect Rover from initial block
         switch ($direction) {
-            case 'N': $cells[] = [$x, $y + 1]; break;
-            case 'S': $cells[] = [$x, $y - 1]; break;
+            case 'N': $cells[] = [$x, $y - 1]; break;
+            case 'S': $cells[] = [$x, $y + 1]; break;
             case 'E': $cells[] = [$x + 1, $y]; break;
             case 'W': $cells[] = [$x - 1, $y]; break;
         }
@@ -48,7 +48,7 @@ class RoverService
         $obstacleEncountered = false;
         $obstaclePosition = null;
 
-        $dirMap = ['N' => [0, 1], 'E' => [1, 0], 'S' => [0, -1], 'W' => [-1, 0]];
+        $dirMap = ['N' => [0, -1], 'E' => [1, 0], 'S' => [0, 1], 'W' => [-1, 0]];
         $dirs = ['N', 'E', 'S', 'W'];
 
         for ($i = 0; $i < strlen($commands); $i++) {
@@ -86,7 +86,8 @@ class RoverService
             'finalPosition' => ['x' => $x, 'y' => $y, 'direction' => $direction],
             'steps' => $steps,
             'obstacleEncountered' => $obstacleEncountered,
-            'obstaclePosition' => $obstaclePosition
+            'obstaclePosition' => $obstaclePosition,
+            'obstacles' => $obstacles,
         ];
     }
 }

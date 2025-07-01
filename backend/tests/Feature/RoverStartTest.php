@@ -18,7 +18,7 @@ class RoverStartTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure(['obstacles']);
-        $this->assertCount(20, $response['obstacles']);
+        $this->assertCount(800, $response['obstacles']);
 
         foreach ($response['obstacles'] as $obst) {
             $this->assertNotEquals([50, 50], $obst);
@@ -47,7 +47,7 @@ class RoverStartTest extends TestCase
 
             $response->assertStatus(200);
             $response->assertJsonStructure(['obstacles']);
-            $this->assertCount(20, $response['obstacles']);
+            $this->assertCount(800, $response['obstacles']);
 
             foreach ($response['obstacles'] as $obst) {
                 $this->assertNotEquals([$x, $y], $obst);

@@ -19,6 +19,7 @@ class RoverController extends Controller
             $valid_data['x'],
             $valid_data['y'],
             $valid_data['direction'],
+            800,
         );
 
         return response()->json(['obstacles' => $obstacles]);
