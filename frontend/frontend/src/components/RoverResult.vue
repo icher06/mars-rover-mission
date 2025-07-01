@@ -82,7 +82,7 @@ onMounted(() => {
     // Mission failed - show warning modal
     setTimeout(() => {
       showObstacleModal.value = true
-    }, 800)
+    }, 300)
   } else {
     // Mission succeeded - show celebration confetti
     confetti({

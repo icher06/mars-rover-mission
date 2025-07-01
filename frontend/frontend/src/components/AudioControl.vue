@@ -7,7 +7,7 @@
     <!-- Speaker Icon -->
     <button
       @click="toggleMute"
-      class="speaker-btn"
+      class="btn speaker-btn"
       :class="{ muted: isMuted }"
     >
       <svg v-if="!isMuted" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -121,28 +121,65 @@ const updateVolume = () => {
   margin: 0 !important;
   padding: 0 !important;
 }
-
-.speaker-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  padding: 6px;
+.btn {
+  padding: 0.5rem 1.25rem;
+  background-color: #374151; /* Gray-700 */
   color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.3s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: #1f2937; /* Gray-800 */
+  box-shadow: 0 0 0 2px #6ee7b7; /* Emerald ring */
+}
+.speaker-btn {
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.2s ease;
+  border: 1px solid;
 }
+@media (prefers-color-scheme: dark) {
+  .speaker-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+  }
 
+  .speaker-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+@media (prefers-color-scheme: light) {
+  .speaker-btn {
+    background-color: #f3f4f6; /* Gray-100 */
+    border-color: #10b981; /* Emerald-500 */
+    color: #111827; /* Gray-900 */
+  }
+
+  .speaker-btn:hover {
+    background-color: #d1fae5; /* Emerald-100 */
+  }
+}
 .speaker-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
 .speaker-btn.muted {
-  background: rgba(239, 68, 68, 0.3);
-  border-color: rgba(239, 68, 68, 0.5);
+  background-color: #dc2626; /* Red-600 */
+  color: white;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.5);
 }
 
 .volume-slider {
