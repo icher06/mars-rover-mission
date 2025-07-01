@@ -6,6 +6,6 @@ describe('RoverForm', () => {
     const wrapper = mount(RoverForm)
     expect(wrapper.text()).toContain('X:')
     expect(wrapper.text()).toContain('Y:')
-    expect(wrapper.text()).toContain('Comandes:')
+    expect(wrapper.text()).toContain('Commands:')
   })
 })
