@@ -141,6 +141,14 @@ Modal that interrupts the mission *before* a collision occurs, warning that the 
 #### RobotIdle.vue  
 Used to show the rover in idle state before mission begins.
 
+#### State Persistence
+The mission state — including the rover's last known position, final orientation, and obstacle layout — is automatically stored in `localStorage` to ensure session consistency.
+
+- This allows users to resume their mission even after a page reload.
+- Pressing the **"Clear"** button will fully reset the mission by:
+  - Removing all saved data from `localStorage`
+  - Resetting the rover to an idle state
+
 ## Getting Started
 
 ### Backend Setup
