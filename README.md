@@ -170,6 +170,11 @@ The mission state — including the rover's last known position, final orientati
    ```bash
    php artisan test
    ```
+   If you see any WARNING related to the usage of file_get_contents(), it's likely due to uncached configuration files.
+   Run the following command before running the tests to clear and cache the configuration:
+   ```
+   php artisan config:cache
+   ```
 For additional testing details see `docs/TESTING.md`.
 
 ### Frontend Setup
